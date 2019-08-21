@@ -66,11 +66,11 @@ class Purifier(object):
         self.refresh()
 
     def toggle_light(self):
-        self.is_light_on = !self.is_light_on
+        self.is_light_on = not self.is_light_on
         self.api.control(self, '9')
         self.refresh()
 
     def toggle_plasma(self):
-        self.is_plasma_on = !self.is_plasma_on
+        self.is_plasma_on = not self.is_plasma_on
         self.api.control(self, '17')
         self.refresh()
