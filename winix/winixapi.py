@@ -143,7 +143,6 @@ class WinixApi:
 class WinixAPIException(Exception):
     pass
 
-class WinixObserver(metaclass=abc.ABCMeta):
-    @abc.abstractmethod
+class WinixObserver:
     def discovered_devices(self, arg):
         pass
