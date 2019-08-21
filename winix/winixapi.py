@@ -33,6 +33,7 @@ SESSION = WinixSession()
 class WinixApi:
 
     def __init__(self, username, password):
+        self._observers = set()
         SESSION.username = username
         SESSION.password = password
 
@@ -42,14 +43,19 @@ class WinixApi:
             self.login()
             self.discover_devices()
 
+    def attach(self, observer):
+        observer._subject = self
+        self._observers.add(observer)
+
+    def detach(self, observer):
+        observer._subject = None
+        self._observers.discard(observer)
+
     def devices(self):
         return SESSION.devices
 
     def login(self):
         SESSION.serverUId = self._authenticate()
-        # access_token, refresh_token = self._get_token(code)
-        # SESSION.access_token = access_token
-        # SESSION.refresh_token = refresh_token
 
     def _authenticate(self):
         cipher = AESCipher('winixpurifier152')
@@ -66,7 +72,8 @@ class WinixApi:
         discovery = Discovery()
         device_ids = discovery.discover_devices()
         SESSION.devices = list(map(lambda x: Purifier(x, self), device_ids))
-        print(SESSION.devices)
+        for observer in self._observers:
+            observer.discovered_devices(SESSION.devices)
 
     def refresh_devices(self):
         for device in SESSION.devices:
@@ -135,3 +142,8 @@ class WinixApi:
 
 class WinixAPIException(Exception):
     pass
+
+class WinixObserver(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def discovered_devices(self, arg):
+        pass
