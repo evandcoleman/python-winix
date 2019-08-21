@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
-Name: python-iocare
-Version: 0.1.5
-Summary: A Python library for the BOND API with Python 3+
+Name: python-winix
+Version: 0.1.0
+Summary: A Python library for the Winix API
 Home-page: UNKNOWN
 Author: Evan Coleman
 Author-email: oss@edc.me

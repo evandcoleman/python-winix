@@ -1,1 +1,1 @@
-A python interface for the IOCare API utilized by Coway air purifiers
+A python interface for the Winix API
